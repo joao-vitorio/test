@@ -1,17 +1,11 @@
 <?php
-// Exemplo simples de "build"
-$src = __DIR__ . '/src';
-$dist = __DIR__ . '/dist';
+header('Content-Type: application/json');
 
-if (!is_dir($dist)) {
-    mkdir($dist);
-}
+// Simula dados de um build
+$response = [
+    'status' => 'success',
+    'timestamp' => date('Y-m-d H:i:s'),
+    'message' => 'Build executado com sucesso!'
+];
 
-$files = scandir($src);
-foreach ($files as $file) {
-    if ($file !== '.' && $file !== '..') {
-        copy("$src/$file", "$dist/$file");
-    }
-}
-
-echo "Build finalizado.\n";
+echo json_encode($response);
