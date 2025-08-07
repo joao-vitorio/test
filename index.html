@@ -1,29 +1,31 @@
-<html>
-  <head>
-    <!--
-      Get jQuery via CDN (https://jquery.com/)
-      jQuery is a js framework that gives us some easy to use
-      functions for interacting with webpages and APIs
-    -->
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Status do Build</title>
+    <style>
+        body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
+        #status { padding: 1rem; background: white; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h1>Status do Build</h1>
+    <div id="status">Carregando...</div>
 
-    <!-- Load our files -->
-    <script type="text/javascript" src="index.js"></script>
-    <link rel="stylesheet" type="text/css" href="index.css">
-  </head>
-
-  <body>
-    <!-- TODO: Say something interesting in the heading tag... -->
-    <h1>...</h1>
-
-    <div class="purple">
-      <span>This text should be purple</span>
-    </div>
-
-    <button>Show me some animal trivia!</button>
-
-    <div id="results-area"></div>
-    <div id="question-display"></div>
-    <div id="answer-display"></div>
-  </body>
+    <script>
+        fetch('build.php')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('status').innerHTML = `
+                    <p><strong>Status:</strong> ${data.status}</p>
+                    <p><strong>Data:</strong> ${data.timestamp}</p>
+                    <p><strong>Mensagem:</strong> ${data.message}</p>
+                `;
+            })
+            .catch(error => {
+                document.getElementById('status').innerHTML = 'Erro ao obter status do build.';
+                console.error(error);
+            });
+    </script>
+</body>
 </html>
